@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoLot.Mvc.Models;
+using AutoLot.Services.Logging;
+
 
 namespace AutoLot.Mvc.Controllers
 {
     [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IAppLogging<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IAppLogging<HomeController> logger)
         {
             _logger = logger;
         }
@@ -25,6 +27,7 @@ namespace AutoLot.Mvc.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            _logger.LogAppWarning("Test message");
             return View();
         }
 
