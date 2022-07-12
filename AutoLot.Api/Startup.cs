@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -80,6 +82,13 @@ namespace AutoLot.Api
                             Url = new Uri("https://github.com/wlfhrtd"),
                         },
                     });
+
+                // add xml documentation into swagger
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                // enable doc generation based on swashbuckle attributes for swagger
+                c.EnableAnnotations();
             });
         }
 

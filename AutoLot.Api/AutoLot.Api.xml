@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AutoLot.Api</name>
+    </assembly>
+    <members>
+        <member name="M:AutoLot.Api.Controllers.ValuesController.Get">
+            <summary>
+            Example Get() returning json
+            </summary>
+            <remarks>Example of returned json:
+            <pre>
+            [
+              "value1",
+              "value2"
+            ]
+            </pre>
+            </remarks>
+            <returns>Array of strings</returns>
+        </member>
+    </members>
+</doc>

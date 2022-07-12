@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,24 @@ namespace AutoLot.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        /// <summary>
+        /// Example Get() returning json
+        /// </summary>
+        /// <remarks>Example of returned json:
+        /// <pre>
+        /// [
+        ///   "value1",
+        ///   "value2"
+        /// ]
+        /// </pre>
+        /// </remarks>
+        /// <returns>Array of strings</returns>
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(200, "Success")]
+        [SwaggerResponse(400, "Fail")]
         public IActionResult Get()
         {
             return Ok(new string[] { "value1", "value2" });
@@ -23,6 +42,11 @@ namespace AutoLot.Api.Controllers
         }
 
         [HttpGet("two")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(200, "Success")]
+        [SwaggerResponse(400, "Fail")]
         public ActionResult<IEnumerable<string>> Get2()
         {
             return new string[] { "value1", "value2" };
