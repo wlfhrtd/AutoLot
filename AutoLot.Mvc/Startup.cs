@@ -36,7 +36,7 @@ namespace AutoLot.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            // db config
             string connectionString = Configuration.GetConnectionString("AutoLot");
             services.AddDbContextPool<ApplicationDbContext>(
                 options => options.UseSqlServer(connectionString,
@@ -47,7 +47,7 @@ namespace AutoLot.Mvc
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
-
+            // serilog
             services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
         }
 

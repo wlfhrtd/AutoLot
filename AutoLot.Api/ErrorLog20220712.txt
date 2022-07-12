@@ -1,0 +1,54 @@
+[22-07-12 15:44:14 Warning]:Microsoft.EntityFrameworkCore.Model.Validation
+
+            Message:The 'bool' property '"IsDrivable"' on entity type '"Car"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'.
+in method  at :
+
+            
+[22-07-12 15:44:39 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            
+[22-07-12 15:44:41 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            
+[22-07-12 15:44:42 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            
+[22-07-12 15:44:43 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            
+[22-07-12 15:44:43 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            
+[22-07-12 17:29:43 Warning]:Microsoft.EntityFrameworkCore.Model.Validation
+
+            Message:The 'bool' property '"IsDrivable"' on entity type '"Car"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'.
+in method  at :
+
+            
+[22-07-12 17:48:51 Warning]:Microsoft.EntityFrameworkCore.Model.Validation
+
+            Message:The 'bool' property '"IsDrivable"' on entity type '"Car"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'.
+in method  at :
+
+            
+[22-07-12 17:51:23 Warning]:Microsoft.EntityFrameworkCore.Model.Validation
+
+            Message:The 'bool' property '"IsDrivable"' on entity type '"Car"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'.
+in method  at :
+
+            

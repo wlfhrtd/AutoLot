@@ -41,10 +41,17 @@ namespace AutoLot.Api
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                    options.JsonSerializerOptions.WriteIndented = true;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Pascal/camel case mess
+                    options.JsonSerializerOptions.WriteIndented = true; // 'expanded'/tree view/notation
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressModelStateInvalidFilter = true; // 400 auto response
+                    options.SuppressInferBindingSourcesForParameters = true; // conventional inferring of values's sources for model binding (FromBody,FromForm,FromRoute,FromQuery)
+                    options.SuppressConsumesConstraintForFormFileParameters = true; // FromForm part: 'auto' header multipart/form-data
+                    options.SuppressMapClientErrors = true; // disable sending ProblemDetails when 404 happens
                 });
-
+            // db config
             string connectionString = Configuration.GetConnectionString("AutoLot");
             services.AddDbContextPool<ApplicationDbContext>(
                 options => options.UseSqlServer(connectionString,
@@ -55,7 +62,7 @@ namespace AutoLot.Api
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
-
+            // serilog
             services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
 
             services.AddSwaggerGen(c =>
@@ -70,7 +77,6 @@ namespace AutoLot.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
                 // init dev db
                 if (Configuration.GetValue<bool>("RebuildDataBase"))
                 {
