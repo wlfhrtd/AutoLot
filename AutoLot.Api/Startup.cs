@@ -16,6 +16,7 @@ using AutoLot.Dal.Initialization;
 using AutoLot.Dal.Repository;
 using AutoLot.Dal.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AutoLot.Services.Logging;
 
 
 namespace AutoLot.Api
@@ -54,6 +55,8 @@ namespace AutoLot.Api
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
 
             services.AddSwaggerGen(c =>
             {

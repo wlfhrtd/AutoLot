@@ -9,6 +9,7 @@ using AutoLot.Mvc.Models;
 
 namespace AutoLot.Mvc.Controllers
 {
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,6 +19,10 @@ namespace AutoLot.Mvc.Controllers
             _logger = logger;
         }
 
+        [Route("/")]
+        [Route("/[controller]")]
+        [Route("/[controller]/[action]")]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();

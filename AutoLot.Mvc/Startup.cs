@@ -13,6 +13,7 @@ using AutoLot.Dal.Initialization;
 using AutoLot.Dal.Repository;
 using AutoLot.Dal.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AutoLot.Services.Logging;
 
 
 namespace AutoLot.Mvc
@@ -46,6 +47,8 @@ namespace AutoLot.Mvc
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
