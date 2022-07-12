@@ -67,7 +67,19 @@ namespace AutoLot.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoLot.Api", Version = "v1" });
+                c.SwaggerDoc(
+                    "v1",
+                    new OpenApiInfo
+                    {
+                        Title = "AutoLot Service",
+                        Version = "v1",
+                        Description = "Service to support AutoLot site",
+                        License = new OpenApiLicense
+                        {
+                            Name = "strmbld wlfhrtd",
+                            Url = new Uri("https://github.com/wlfhrtd"),
+                        },
+                    });
             });
         }
 
@@ -81,11 +93,12 @@ namespace AutoLot.Api
                 if (Configuration.GetValue<bool>("RebuildDataBase"))
                 {
                     SampleDataInitializer.InitializeData(context);
-                }
-
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutoLot.Api v1"));
+                }        
             }
+            // enable middleware to serve generated Swagger as endpoint
+            app.UseSwagger();
+            // enable middleware to serve swagger ui
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutoLot Service v1"));
 
             app.UseHttpsRedirection();
 
