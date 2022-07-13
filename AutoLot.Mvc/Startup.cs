@@ -14,6 +14,8 @@ using AutoLot.Dal.Repository;
 using AutoLot.Dal.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoLot.Services.Logging;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 
 namespace AutoLot.Mvc
@@ -49,6 +51,8 @@ namespace AutoLot.Mvc
             services.AddScoped<IOrderRepository, OrderRepository>();
             // serilog
             services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
+            // for custom tag helpers
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
