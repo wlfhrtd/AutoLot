@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoLot.Mvc.Models;
 using AutoLot.Services.Logging;
+using AutoLot.Dal.Repository.Interfaces;
 
 
 namespace AutoLot.Mvc.Controllers
@@ -40,6 +41,14 @@ namespace AutoLot.Mvc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult RazorSyntax([FromServices] ICarRepository carRepository)
+        {
+            var car = carRepository.FindOneById(1);
+
+            return View(car);
         }
     }
 }
