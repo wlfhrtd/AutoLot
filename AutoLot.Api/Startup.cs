@@ -42,7 +42,17 @@ namespace AutoLot.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddControllers(config => config.Filters.Add(new CustomExceptionFilterAttribute(_env))) // at App level
+                .AddCors(options =>
+                {
+                    options.AddPolicy("AllowAll", builder =>
+                    {
+                        builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin();
+                    });
+                })
+                .AddControllers(config => config.Filters.Add(new CustomExceptionFilterAttribute(_env))) // filter at App level
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null; // Pascal/camel case mess
@@ -104,7 +114,7 @@ namespace AutoLot.Api
                 if (Configuration.GetValue<bool>("RebuildDataBase"))
                 {
                     SampleDataInitializer.InitializeData(context);
-                }        
+                }
             }
             // enable middleware to serve generated Swagger as endpoint
             app.UseSwagger();
@@ -114,6 +124,8 @@ namespace AutoLot.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 
