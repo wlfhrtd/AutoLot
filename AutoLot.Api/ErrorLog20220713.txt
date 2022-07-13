@@ -10,3 +10,27 @@ in method  at :
 in method  at :
 
             
+[22-07-13 12:14:27 Warning]:Microsoft.EntityFrameworkCore.Model.Validation
+
+            Message:The 'bool' property '"IsDrivable"' on entity type '"Car"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'.
+in method  at :
+
+            
+[22-07-13 12:14:45 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            
+[22-07-13 12:15:25 Warning]:Microsoft.EntityFrameworkCore.Model.Validation
+
+            Message:The 'bool' property '"IsDrivable"' on entity type '"Car"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'.
+in method  at :
+
+            
+[22-07-13 12:15:39 Error]AutoLot.Api - Dev:AutoLot.Api.Controllers.WeatherForecastController
+
+            Message:Test message
+in method Get at D:\dev\cs\AutoLot\AutoLot.Api\Controllers\WeatherForecastController.cs:31
+
+            

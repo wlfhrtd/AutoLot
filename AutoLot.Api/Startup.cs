@@ -19,6 +19,7 @@ using AutoLot.Dal.Repository;
 using AutoLot.Dal.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoLot.Services.Logging;
+using AutoLot.Api.Filters;
 
 
 namespace AutoLot.Api
@@ -40,7 +41,8 @@ namespace AutoLot.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services
+                .AddControllers(config => config.Filters.Add(new CustomExceptionFilterAttribute(_env))) // at App level
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null; // Pascal/camel case mess
