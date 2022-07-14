@@ -58,7 +58,7 @@ namespace AutoLot.Api.Controllers.Base
         public ActionResult<T> GetOne(int id)
         {
             var entity = MainRepository.FindOneById(id);
-            return entity == null ? NotFound() : Ok(entity);
+            return entity == null ? NoContent() : Ok(entity);
         }
 
         /// <summary>

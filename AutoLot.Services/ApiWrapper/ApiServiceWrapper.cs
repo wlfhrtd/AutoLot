@@ -18,9 +18,9 @@ namespace AutoLot.Services.ApiWrapper
         private readonly ApiServiceSettings _settings;
 
 
-        public ApiServiceWrapper(HttpClient client, ApiServiceSettings settings)
+        public ApiServiceWrapper(HttpClient client, IOptionsMonitor<ApiServiceSettings> settings)
         {
-            _settings = settings;
+            _settings = settings.CurrentValue;
             _client = client;
             _client.BaseAddress = new Uri(_settings.Uri);      
         }

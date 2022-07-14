@@ -29,11 +29,19 @@ namespace AutoLot.Mvc.ViewComponents
            Pages/Shared/Components/<view_component_name>/<view_name>
          * 
          */
+
+        /*
         public IViewComponentResult Invoke()
         {
-            var makes = _makeRepository.FindAll().ToList();
-
+            var makes = _serviceWrapper.GetMakesAsync();
             return makes.Any() ? View("MenuView", makes) : new ContentViewComponentResult("Unable to get makes");
+        }
+        */
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var makes = await _serviceWrapper.GetMakesAsync();
+            return makes == null ? new ContentViewComponentResult("Unable to get makes") : View("MenuView", makes);
         }
     }
 }

@@ -53,7 +53,6 @@ namespace AutoLot.Mvc.Controllers
         public async Task<IActionResult> Create()
         {
             ViewData["MakeId"] = await GetMakesAsync();
-
             return View();
         }
 
@@ -64,12 +63,10 @@ namespace AutoLot.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 await _serviceWrapper.AddCarAsync(car);
-
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["MakeId"] = await GetMakesAsync();
-
             return View(car);
         }
 
