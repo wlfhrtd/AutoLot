@@ -53,6 +53,28 @@ namespace AutoLot.Mvc
             services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
             // for custom tag helpers
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            if (_env.IsDevelopment() || _env.IsEnvironment("Local"))
+            {
+                services.AddWebOptimizer(false, false);
+            }
+            else
+            {
+                services.AddWebOptimizer(options =>
+                {
+                    options.MinifyCssFiles(); // ALL
+                    // options.MinifyJsFiles(); // ALL
+                    options.MinifyJsFiles("js/site.js"); // doesnt add "min" to names; minified versions are not on disk but cached
+                    options.MinifyJsFiles("lib/**/*.js"); // compiler may complain on absence
+
+                    options.AddJavaScriptBundle("js/validations/validationCode.js", "js/validations/**/*.js");
+                    options.AddJavaScriptBundle(
+                        "js/validations/validationCode.js",
+                        "js/validations/validators.js",
+                        "js/validations/errorFormatting.js"
+                        );
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +96,9 @@ namespace AutoLot.Mvc
                 app.UseHsts(); // HTTP Strict Transport Security Protocol
             }
             app.UseHttpsRedirection();
+            // Libershark.WebOptimizer.Core, bundles and minifies assets
+            app.UseWebOptimizer();
+
             app.UseStaticFiles();
 
             app.UseRouting();
