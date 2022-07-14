@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using AutoLot.Mvc.Models;
 using AutoLot.Services.Logging;
 using AutoLot.Dal.Repository.Interfaces;
@@ -26,10 +26,10 @@ namespace AutoLot.Mvc.Controllers
         [Route("/[controller]")]
         [Route("/[controller]/[action]")]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index([FromServices] IOptionsMonitor<DealerInfo> dealerMonitor)
         {
-            _logger.LogAppWarning("Test message");
-            return View();
+            var vm = dealerMonitor.CurrentValue;
+            return View(vm);
         }
 
         public IActionResult Privacy()

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoLot.Services.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using AutoLot.Mvc.Models;
 
 
 namespace AutoLot.Mvc
@@ -53,7 +54,7 @@ namespace AutoLot.Mvc
             services.AddScoped(typeof(IAppLogging<>), typeof(AppLogging<>));
             // for custom tag helpers
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-
+            // WebOptimizer config
             if (_env.IsDevelopment() || _env.IsEnvironment("Local"))
             {
                 services.AddWebOptimizer(false, false);
@@ -75,6 +76,8 @@ namespace AutoLot.Mvc
                         );
                 });
             }
+            // DealerInfo
+            services.Configure<DealerInfo>(Configuration.GetSection(nameof(DealerInfo)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
