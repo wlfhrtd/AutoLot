@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Car>
+
+@{ 
+    bool showMake = true;
+    if (bool.TryParse(ViewBag.ByMake?.ToString(), out bool byMake))
+    {
+        showMake = !byMake;
+    }
+}
+
+
+<p>
+    <item-create></item-create>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            @if (showMake)
+            {
+                <th>
+                  @Html.DisplayNameFor(m => m.MakeId)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(m => m.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.PetName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (showMake)
+                {
+                    <td>
+                        @Html.DisplayFor(i => item.MakeNavigation.Name)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(i => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.PetName)
+                </td>
+                <td>
+                    <item-edit item-id="@item.Id"></item-edit> |
+                    <item-details item-id="@item.Id"></item-details> |
+                    <item-delete item-id="@item.Id"></item-delete>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
