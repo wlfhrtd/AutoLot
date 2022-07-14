@@ -17,6 +17,7 @@ using AutoLot.Services.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using AutoLot.Mvc.Models;
+using AutoLot.Services.ApiWrapper;
 
 
 namespace AutoLot.Mvc
@@ -78,6 +79,8 @@ namespace AutoLot.Mvc
             }
             // DealerInfo
             services.Configure<DealerInfo>(Configuration.GetSection(nameof(DealerInfo)));
+            // api proj config
+            services.ConfigureApiServiceWrapper(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
