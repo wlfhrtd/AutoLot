@@ -5,18 +5,19 @@ using System.Threading.Tasks;
 using AutoLot.Dal.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using AutoLot.Services.ApiWrapper;
 
 
 namespace AutoLot.Mvc.ViewComponents
 {
     public class MenuViewComponent : ViewComponent
     {
-        private readonly IMakeRepository _makeRepository;
+        private readonly IApiServiceWrapper _serviceWrapper;
 
 
-        public MenuViewComponent(IMakeRepository makeRepository)
+        public MenuViewComponent(IApiServiceWrapper serviceWrapper)
         {
-            _makeRepository = makeRepository;
+            _serviceWrapper = serviceWrapper;
         }
 
 

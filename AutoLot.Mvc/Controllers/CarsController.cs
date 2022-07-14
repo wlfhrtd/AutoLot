@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoLot.Dal.Repository.Interfaces;
 using AutoLot.Model.Entities;
+using AutoLot.Services.ApiWrapper;
 using AutoLot.Services.Logging;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
@@ -14,99 +12,85 @@ namespace AutoLot.Mvc.Controllers
     [Route("[controller]/[action]")]
     public class CarsController : Controller
     {
-        private readonly ICarRepository _carRepository;
+        private readonly IApiServiceWrapper _serviceWrapper;
         private readonly IAppLogging<CarsController> _logger;
 
 
-        public CarsController(ICarRepository carRepository, IAppLogging<CarsController> logger)
+        public CarsController(IApiServiceWrapper serviceWrapper, IAppLogging<CarsController> logger)
         {
-            _carRepository = carRepository;
+            _serviceWrapper = serviceWrapper;
             _logger = logger;
         }
 
 
         [Route("/[controller]")]
         [Route("/[controller]/[action]")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+            => View(await _serviceWrapper.GetCarsAsync());
+
+        [HttpGet("{makeId}/{makeName}")]
+        public async Task<IActionResult> ByMake(int makeId, string makeName)
         {
-            return View(_carRepository.FindAllIgnoreQueryFilters());
-        }
+            ViewBag.MakeName = makeName;
 
-        [HttpGet]
-        public IActionResult Create([FromServices] IMakeRepository makeRepository)
-        {
-            ViewData["MakeId"] = GetMakes(makeRepository);
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create([FromServices] IMakeRepository makeRepository, Car car)
-        {
-            if (ModelState.IsValid)
-            {
-                _carRepository.Add(car);
-
-                return RedirectToAction(nameof(Details), new { id = car.Id });
-            }
-            
-            ViewData["MakeId"] = GetMakes(makeRepository);
-
-            return View();
+            return View(await _serviceWrapper.GetCarsByMakeAsync(makeId));
         }
 
         [HttpGet("{id?}")]
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (!id.HasValue)
             {
                 return BadRequest();
             }
 
-            Car car = GetOne(id);
+            var car = await GetOneAsync(id);
 
             return car == null ? NotFound() : View(car);
         }
 
-        [HttpGet("{id?}")]
-        public IActionResult Delete(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            Car car = GetOne(id);
+            ViewData["MakeId"] = await GetMakesAsync();
 
-            return car == null ? NotFound() : View(car);
+            return View();
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Delete(int id, Car car)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Car car)
         {
-            if (id!=car.Id)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                await _serviceWrapper.AddCarAsync(car);
+
+                return RedirectToAction(nameof(Index));
             }
 
-            _carRepository.Remove(car);
+            ViewData["MakeId"] = await GetMakesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return View(car);
         }
 
         [HttpGet("{id?}")]
-        public IActionResult Edit([FromServices] IMakeRepository makeRepository, int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            Car car = GetOne(id);
+            var car = await GetOneAsync(id);
+
             if (car == null)
             {
-                return NoContent();
+                return NotFound();
             }
 
-            ViewData["MakeId"] = GetMakes(makeRepository);
+            ViewData["MakeId"] = await GetMakesAsync();
 
             return View(car);
         }
 
         [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromServices] IMakeRepository makeRepository, int id, Car car)
+        public async Task<IActionResult> Edit(int id, Car car)
         {
             if (id != car.Id)
             {
@@ -115,31 +99,37 @@ namespace AutoLot.Mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                _carRepository.Update(car);
-                return RedirectToAction(nameof(Details), new { id = car.Id });
+                await _serviceWrapper.UpdateCarAsync(id, car);
+                return RedirectToAction(nameof(Index));
             }
 
-            ViewData["MakeId"] = GetMakes(makeRepository);
-
+            ViewData["MakeId"] = await GetMakesAsync();
             return View(car);
         }
 
-        [HttpGet("/[controller]/[action]/{makeId}/{makeName}")]
-        public IActionResult ByMake(int makeId, string makeName)
+        [HttpGet("{id?}")]
+        public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.MakeName = makeName;
-
-            return View(_carRepository.FindAllBy(makeId));
+            var car = await GetOneAsync(id);
+            return car == null ? NotFound() : View(car);
         }
 
-        internal Car GetOne(int? id)
+        [HttpPost("{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id, Car car)
         {
-            return !id.HasValue ? null : _carRepository.FindOneById(id.Value);
+            await _serviceWrapper.DeleteCarAsync(id, car);
+            return RedirectToAction(nameof(Index));
         }
 
-        internal SelectList GetMakes(IMakeRepository makeRepository)
-        {
-            return new(makeRepository.FindAll(), nameof(Make.Id), nameof(Make.Name));
-        }
+        internal async Task<Car> GetOneAsync(int? id)
+            => !id.HasValue ? null : await _serviceWrapper.GetCarAsync(id.Value);
+
+        internal async Task<SelectList> GetMakesAsync()
+            => new SelectList(
+                await _serviceWrapper.GetMakesAsync(),
+                nameof(Make.Id),
+                nameof(Make.Name)
+                );
     }
 }
